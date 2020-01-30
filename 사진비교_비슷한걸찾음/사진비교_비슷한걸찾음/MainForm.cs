@@ -67,7 +67,7 @@ namespace 사진비교_비슷한걸찾음
 			pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 		}
 		
-		int comparisonNum = 0;//ReSize에서 사용됨
+		int comparisonNum = 0;//colorComparison, ReSize에서 사용됨
 		double AllowableMarginOfError = 0;
 		void Button3Click(object sender, EventArgs e)//대충비교		
 		{
@@ -78,7 +78,7 @@ namespace 사진비교_비슷한걸찾음
 			Bitmap[] image = {image1, image2};
 			image = reducedResolution(image1, image2);
 			string a = imageComparison(image[0], image[1]);
-			//textBox1.Text = a;
+			textBox1.Text = a;
 		}
 		
 		void Button4Click(object sender, EventArgs e)//비교
@@ -111,9 +111,9 @@ namespace 사진비교_비슷한걸찾음
 				for (int j = 0; j < image1.Height; j++){
 					Image1 = image1.GetPixel(i, j).ToString();
 					Image2 = image2.GetPixel(i, j).ToString();
-					int[] Image1Color = findColors();
-					int[] Image2Color = findColors();
-					if (Image1 != Image2){
+					int[] Image1Color = findColors(Image1);
+					int[] Image2Color = findColors(Image2);
+					if (false == colorComparison(Image1Color, Image2Color)){
 						count++;
 					}
 				}
@@ -130,7 +130,15 @@ namespace 사진비교_비슷한걸찾음
 				}
 			}
 		}
-		
+		bool colorComparison(int[] Image1Color, int[] Image2Color){
+			for(int a = 0; a < 3; a++){
+				if(Image1Color[a] - Image2Color[a] > (5 * comparisonNum) || Image2Color[a] - Image1Color[a] > (5 * comparisonNum)){
+					Console.WriteLine((Image1Color[a] - Image2Color[a]) +" "+ (Image2Color[a] - Image1Color[a]));
+					return false;
+				}
+			}
+			return true;
+		}
 		int[] findColors(string input){
 			//색깔값은 Color [A=255, R=114, G=93, B=8] 이런식으로 되어있음
 			//얼마나 투명한지 표현하는 A값은 보지 않음 왜냐면 귀찮거든
@@ -147,39 +155,39 @@ namespace 사진비교_비슷한걸찾음
 			return Color;
 		}
 		
-		Bitmap[] reducedResolution(Bitmap image1, Bitmap image2){
+		Bitmap[] reducedResolution(Bitmap image1, Bitmap image2){ //이미지 두개를 같은크기로 만들어줌
 			int _width = Math.Max(image1.Width, image2.Width);
 			int _height = Math.Max(image1.Height, image2.Height);
-			int width = ReSize(_width);
+			int width = ReSize(_width); //더 크기가 큰 영상을 기준으로 크기를 변경
 			int height = ReSize(_height);
 			
 			Size size = new Size(width, height);
 			Bitmap resizeImage1 = new Bitmap(image1, size);
-			
+			pictureBox1.Image = resizeImage1;
 			Bitmap resizeImage2 = new Bitmap(image2, size);
-			
+			pictureBox2.Image = resizeImage1;
 			Bitmap[] resizeImage = {resizeImage1, resizeImage2};
 			return resizeImage;
 		}
 		
-		int ReSize(int size){
+		int ReSize(int size){ //해상도를 낮추는 함수
 			if(size > 2000){
-				return (size / (40 * comparisonNum));
+				return (size / (50 * comparisonNum));
 			}
 			else if(size > 1500){
-				return (size / (25 * comparisonNum));
+				return (size / (37 * comparisonNum));
 			}
 			else if(size > 1000){
-				return (size / (18 * comparisonNum));
+				return (size / (25 * comparisonNum));
 			}
 			else if(size > 500){
-				return (size / (9 * comparisonNum));
+				return (size / (13 * comparisonNum));
 			}
 			else if(size > 250){
-				return (size / (5 * comparisonNum));
+				return (size / (6 * comparisonNum));
 			}
 			else if(size > 100){
-				return (size / (2 * comparisonNum));
+				return (size / (3 * comparisonNum));
 			}
 			else if(size > 50){
 				return (size / comparisonNum);
