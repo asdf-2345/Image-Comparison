@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace 사진비교_비슷한걸찾음
 {
@@ -77,7 +78,7 @@ namespace 사진비교_비슷한걸찾음
 			Bitmap[] image = {image1, image2};
 			image = reducedResolution(image1, image2);
 			string a = imageComparison(image[0], image[1]);
-			textBox1.Text = a;
+			//textBox1.Text = a;
 		}
 		
 		void Button4Click(object sender, EventArgs e)//비교
@@ -110,7 +111,8 @@ namespace 사진비교_비슷한걸찾음
 				for (int j = 0; j < image1.Height; j++){
 					Image1 = image1.GetPixel(i, j).ToString();
 					Image2 = image2.GetPixel(i, j).ToString();
-						
+					int[] Image1Color = findColors();
+					int[] Image2Color = findColors();
 					if (Image1 != Image2){
 						count++;
 					}
@@ -128,6 +130,23 @@ namespace 사진비교_비슷한걸찾음
 				}
 			}
 		}
+		
+		int[] findColors(string input){
+			//색깔값은 Color [A=255, R=114, G=93, B=8] 이런식으로 되어있음
+			//얼마나 투명한지 표현하는 A값은 보지 않음 왜냐면 귀찮거든
+			int RPoint = input.IndexOf("R");
+			int GPoint = input.IndexOf("G");
+			int BPoint = input.IndexOf("B");
+			int R = int.Parse(input.Substring(RPoint+2, input.IndexOf(",", RPoint)-RPoint-2));
+			Console.WriteLine(R);
+			int G = int.Parse(input.Substring(GPoint+2, input.IndexOf(",", GPoint)-GPoint-2));
+			Console.WriteLine(G);
+			int B = int.Parse(input.Substring(BPoint+2, input.IndexOf("]", BPoint)-BPoint-2));
+			Console.WriteLine(B);
+			int[] Color = {R, G, B};
+			return Color;
+		}
+		
 		Bitmap[] reducedResolution(Bitmap image1, Bitmap image2){
 			int _width = Math.Max(image1.Width, image2.Width);
 			int _height = Math.Max(image1.Height, image2.Height);
