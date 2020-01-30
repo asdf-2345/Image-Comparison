@@ -73,24 +73,37 @@ namespace 사진비교_비슷한걸찾음
 		{
 			comparisonNum = 4;
 			AllowableMarginOfError = 0.6;
+			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
-			Bitmap[] image = {image1, image2};
-			image = reducedResolution(image1, image2);
-			string a = imageComparison(image[0], image[1]);
-			textBox1.Text = a;
+			for(int a = 0; a < 4; a++){
+				Bitmap[] image = {image1, image2};
+				image = reducedResolution(image1, image2);
+				str = imageComparison(image[0], image[1]);
+				if(str != "다릅니다."){
+					break;
+				}
+				image2.RotateFlip(RotateFlipType.Rotate90FlipNone);
+			}
+			textBox1.Text = str;
 		}
 		
 		void Button4Click(object sender, EventArgs e)//비교
 		{
 			comparisonNum = 2;
-			AllowableMarginOfError = 0.3;
+			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
-			Bitmap[] image = {image1, image2};
-			image = reducedResolution(image1, image2);
-			string a = imageComparison(image[0], image[1]);
-			textBox1.Text = a;
+			for(int a = 0; a < 4; a++){
+				Bitmap[] image = {image1, image2};
+				image = reducedResolution(image1, image2);
+				str = imageComparison(image[0], image[1]);
+				if(str != "다릅니다."){
+					break;
+				}
+				image2.RotateFlip(RotateFlipType.Rotate90FlipNone);
+			}
+			textBox1.Text = str;
 		}
 		
 		void Button5Click(object sender, EventArgs e)//완전비교
@@ -131,8 +144,13 @@ namespace 사진비교_비슷한걸찾음
 			}
 		}
 		bool colorComparison(int[] Image1Color, int[] Image2Color){
+			int image1 = Image1Color[0] + Image1Color[1] + Image1Color[2];
+			int image2 = Image2Color[0] + Image2Color[1] + Image2Color[2];
+			if(image1 - image2 > (3 * comparisonNum) || image2 - image1 > (3 * comparisonNum)){
+				return false;
+			}
 			for(int a = 0; a < 3; a++){
-				if(Image1Color[a] - Image2Color[a] > (5 * comparisonNum) || Image2Color[a] - Image1Color[a] > (5 * comparisonNum)){
+				if(Image1Color[a] - Image2Color[a] > (2 * comparisonNum) || Image2Color[a] - Image1Color[a] > (2 * comparisonNum)){
 					Console.WriteLine((Image1Color[a] - Image2Color[a]) +" "+ (Image2Color[a] - Image1Color[a]));
 					return false;
 				}
@@ -165,29 +183,29 @@ namespace 사진비교_비슷한걸찾음
 			Bitmap resizeImage1 = new Bitmap(image1, size);
 			pictureBox1.Image = resizeImage1;
 			Bitmap resizeImage2 = new Bitmap(image2, size);
-			pictureBox2.Image = resizeImage1;
+			pictureBox2.Image = resizeImage2;
 			Bitmap[] resizeImage = {resizeImage1, resizeImage2};
 			return resizeImage;
 		}
 		
 		int ReSize(int size){ //해상도를 낮추는 함수
 			if(size > 2000){
-				return (size / (50 * comparisonNum));
+				return (size / (20 * comparisonNum));
 			}
 			else if(size > 1500){
-				return (size / (37 * comparisonNum));
+				return (size / (15 * comparisonNum));
 			}
 			else if(size > 1000){
-				return (size / (25 * comparisonNum));
+				return (size / (10 * comparisonNum));
 			}
 			else if(size > 500){
-				return (size / (13 * comparisonNum));
+				return (size / (5 * comparisonNum));
 			}
 			else if(size > 250){
-				return (size / (6 * comparisonNum));
+				return (size / (3 * comparisonNum));
 			}
 			else if(size > 100){
-				return (size / (3 * comparisonNum));
+				return (size / (1 * comparisonNum));
 			}
 			else if(size > 50){
 				return (size / comparisonNum);
