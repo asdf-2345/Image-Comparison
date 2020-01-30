@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: asdf-2345
  * Date: 2020-01-29
@@ -67,25 +67,67 @@ namespace 사진비교_비슷한걸찾음
 		}
 		
 		int comparisonNum = 0;//ReSize에서 사용됨
+		double AllowableMarginOfError = 0;
 		void Button3Click(object sender, EventArgs e)//대충비교		
 		{
 			comparisonNum = 4;
+			AllowableMarginOfError = 0.6;
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
 			Bitmap[] image = {image1, image2};
 			image = reducedResolution(image1, image2);
+			string a = imageComparison(image[0], image[1]);
+			textBox1.Text = a;
 		}
 		
 		void Button4Click(object sender, EventArgs e)//비교
 		{
 			comparisonNum = 2;
+			AllowableMarginOfError = 0.3;
+			Bitmap image1 = new Bitmap(pictureBox1.Image);
+			Bitmap image2 = new Bitmap(pictureBox2.Image);
+			Bitmap[] image = {image1, image2};
+			image = reducedResolution(image1, image2);
+			string a = imageComparison(image[0], image[1]);
+			textBox1.Text = a;
 		}
 		
 		void Button5Click(object sender, EventArgs e)//완전비교
 		{
 			comparisonNum = 0;
+			AllowableMarginOfError = 1;
+			Bitmap image1 = new Bitmap(pictureBox1.Image);
+			Bitmap image2 = new Bitmap(pictureBox2.Image);
+			string a = imageComparison(image1, image2);
+			textBox1.Text = a;
 		}
 		
+		string imageComparison(Bitmap image1, Bitmap image2){
+			string Image1, Image2;
+			int count = 0;
+			int size = image1.Width * image1.Height;
+			for (int i = 0; i < image1.Width; i++){
+				for (int j = 0; j < image1.Height; j++){
+					Image1 = image1.GetPixel(i, j).ToString();
+					Image2 = image2.GetPixel(i, j).ToString();
+						
+					if (Image1 != Image2){
+						count++;
+					}
+				}
+			}
+			if(count > size * AllowableMarginOfError){
+				return "다릅니다."; // + count.ToString() + " " + size.ToString();
+			}
+			else{
+				if(comparisonNum == 0){
+					return "똑같습니다.";
+				}
+				else{
+					return "비슷합니다."; // + count + size * (AllowableMarginOfError / 10);
+				}
+			}
+		}
 		Bitmap[] reducedResolution(Bitmap image1, Bitmap image2){
 			int _width = Math.Max(image1.Width, image2.Width);
 			int _height = Math.Max(image1.Height, image2.Height);
@@ -94,10 +136,8 @@ namespace 사진비교_비슷한걸찾음
 			
 			Size size = new Size(width, height);
 			Bitmap resizeImage1 = new Bitmap(image1, size);
-			pictureBox1.Image = resizeImage1;
 			
 			Bitmap resizeImage2 = new Bitmap(image2, size);
-			pictureBox2.Image = resizeImage2;
 			
 			Bitmap[] resizeImage = {resizeImage1, resizeImage2};
 			return resizeImage;
@@ -129,5 +169,10 @@ namespace 사진비교_비슷한걸찾음
 			return size;
 		}
 			
+		
+		void TextBox1TextChanged(object sender, EventArgs e)
+		{
+			
+		}
 	}
 }
