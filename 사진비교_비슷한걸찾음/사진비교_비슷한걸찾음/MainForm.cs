@@ -92,12 +92,14 @@ namespace 사진비교_비슷한걸찾음
 		void Button4Click(object sender, EventArgs e)//비교
 		{
 			comparisonNum = 2;
+			AllowableMarginOfError = 0.8;
 			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
+			Bitmap[] image = {image1, image2};
+			image = photoConversion(image1, image2);
 			for(int a = 0; a < 4; a++){
-				Bitmap[] image = {image1, image2};
-				image = photoConversion(image1, image2);
+				image[1] = image2;
 				str = imageComparison(image[0], image[1]);
 				if(str != "다릅니다."){
 					break;
@@ -105,16 +107,6 @@ namespace 사진비교_비슷한걸찾음
 				image2.RotateFlip(RotateFlipType.Rotate90FlipNone);
 			}
 			textBox1.Text = str;
-		}
-		
-		void Button5Click(object sender, EventArgs e)//완전비교
-		{
-			comparisonNum = 0;
-			AllowableMarginOfError = 1;
-			Bitmap image1 = new Bitmap(pictureBox1.Image);
-			Bitmap image2 = new Bitmap(pictureBox2.Image);
-			string a = imageComparison(image1, image2);
-			textBox1.Text = a;
 		}
 		
 		string imageComparison(Bitmap image1, Bitmap image2){
@@ -130,16 +122,11 @@ namespace 사진비교_비슷한걸찾음
 					}
 				}
 			}
-			if(count > size * AllowableMarginOfError){
+			if(count >= size * AllowableMarginOfError){
 				return "다릅니다."; // + count.ToString() + " " + size.ToString();
 			}
 			else{
-				if(comparisonNum == 0){
-					return "똑같습니다.";
-				}
-				else{
-					return "비슷합니다."; // + count + size * (AllowableMarginOfError / 10);
-				}
+				return "비슷합니다."; // + count + size * (AllowableMarginOfError / 10);
 			}
 		}
 		//bool colorComparison(int[] Image1Color, int[] Image2Color){
@@ -185,9 +172,8 @@ namespace 사진비교_비슷한걸찾음
 			Bitmap resizeImage2 = new Bitmap(image2, size);
 			//pictureBox2.Image = resizeImage2;
 			//recolorImage1 =
-			ReColor(resizeImage1, resizeImage2);
-			Bitmap[] resizeImage = ReColor(resizeImage1, resizeImage2);
-			return resizeImage;
+			Bitmap[] outputImage = ReColor(resizeImage1, resizeImage2);
+			return outputImage;
 		}
 		
 		Bitmap[] ReColor(Bitmap img1, Bitmap img2){
@@ -200,15 +186,71 @@ namespace 사진비교_비슷한걸찾음
 					img1Color = img1.GetPixel(i, j);
 					img2Color = img2.GetPixel(i, j);
 					
-					img1Color = Color.FromArgb((int)Math.Truncate(img1Color.R*comparisonNum2), (int)Math.Truncate(img1Color.G*comparisonNum2), (int)Math.Truncate(img1Color.B*comparisonNum2));
-					img2Color = Color.FromArgb((int)Math.Truncate(img2Color.R*comparisonNum2), (int)Math.Truncate(img2Color.G*comparisonNum2), (int)Math.Truncate(img2Color.B*comparisonNum2));
-					
+					img1Color = getReColor(img1Color);
+					img2Color = getReColor(img2Color);
 					img1.SetPixel(i, j, img1Color);
 					img2.SetPixel(i, j, img2Color);
 				}
 			}
 			Bitmap[] img = {img1, img2};
 			return img;
+		}
+		
+		Color getReColor(Color color){
+			int colorR = 0;
+			int colorG = 0;
+			int colorB = 0;
+			
+			if(color.R <= 50){
+				colorR = 25;
+			}
+			else if(color.R <= 100){
+				colorR = 75;
+			}
+			else if(color.R <= 150){
+				colorR = 125;
+			}
+			else if(color.R <= 200){
+				colorR = 175;
+			}
+			else{
+				colorR = 225;
+			}
+		
+			if(color.G <= 50){
+				colorG = 25;
+			}
+			else if(color.G <= 100){
+				colorG = 75;
+			}
+			else if(color.G <= 150){
+				colorG = 125;
+			}
+			else if(color.G <= 200){
+				colorG = 175;
+			}
+			else{
+				colorG = 225;
+			}
+	
+			if(color.B <= 50){
+				colorB = 25;
+			}
+			else if(color.B <= 100){
+				colorB = 75;
+			}
+			else if(color.B <= 150){
+				colorB = 125;
+			}
+			else if(color.B <= 200){
+				colorB = 175;
+			}
+			else{
+				colorB = 225;
+			}
+			
+			Color output = Color.FromArgb(colorR, colorG, colorB);
+			return output;
 		}
 		int ReSize(int size){ //해상도를 낮추는 함수
 			if(size > 2000){
