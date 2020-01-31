@@ -165,12 +165,14 @@ namespace 사진비교_비슷한걸찾음
 			int _height = Math.Max(image1.Height, image2.Height);
 			int width = ReSize(_width); //더 크기가 큰 영상을 기준으로 크기를 변경
 			int height = ReSize(_height);
-			
 			Size size = new Size(width, height);
+			
 			Bitmap resizeImage1 = new Bitmap(image1, size);
-			//pictureBox1.Image = resizeImage1;
+			pictureBox1.Image = resizeImage1;
+			
 			Bitmap resizeImage2 = new Bitmap(image2, size);
-			//pictureBox2.Image = resizeImage2;
+			pictureBox2.Image = resizeImage2;
+			
 			//recolorImage1 =
 			Bitmap[] outputImage = ReColor(resizeImage1, resizeImage2);
 			return outputImage;
@@ -180,7 +182,6 @@ namespace 사진비교_비슷한걸찾음
 			Color img1Color;
 			Color img2Color;
 			double comparisonNum2 = (comparisonNum * 0.1);
-			Console.WriteLine(comparisonNum2);
 			for (int i = 0; i < img1.Width; i++){
 				for (int j = 0; j < img2.Height; j++){
 					img1Color = img1.GetPixel(i, j);
@@ -201,52 +202,34 @@ namespace 사진비교_비슷한걸찾음
 			int colorG = 0;
 			int colorB = 0;
 			
-			if(color.R <= 50){
-				colorR = 25;
+			if(color.R <= 85){
+				colorR = 43;
 			}
-			else if(color.R <= 100){
-				colorR = 75;
-			}
-			else if(color.R <= 150){
-				colorR = 125;
-			}
-			else if(color.R <= 200){
-				colorR = 175;
+			else if(color.R <= 170){
+				colorR = 128;
 			}
 			else{
-				colorR = 225;
+				colorR = 213;
 			}
-		
-			if(color.G <= 50){
-				colorG = 25;
+			
+			if(color.G <= 85){
+				colorG = 43;
 			}
-			else if(color.G <= 100){
-				colorG = 75;
-			}
-			else if(color.G <= 150){
-				colorG = 125;
-			}
-			else if(color.G <= 200){
-				colorG = 175;
+			else if(color.G <= 170){
+				colorG = 128;
 			}
 			else{
-				colorG = 225;
+				colorG = 213;
 			}
 	
-			if(color.B <= 50){
-				colorB = 25;
+			if(color.B <= 85){
+				colorB = 43;
 			}
-			else if(color.B <= 100){
-				colorB = 75;
-			}
-			else if(color.B <= 150){
-				colorB = 125;
-			}
-			else if(color.B <= 200){
-				colorB = 175;
+			else if(color.B <= 170){
+				colorB = 128;
 			}
 			else{
-				colorB = 225;
+				colorB = 213;
 			}
 			
 			Color output = Color.FromArgb(colorR, colorG, colorB);

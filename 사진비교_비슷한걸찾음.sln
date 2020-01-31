@@ -1,0 +1,18 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.4
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "사진비교_비슷한걸찾음", "사진비교_비슷한걸찾음\사진비교_비슷한걸찾음.csproj", "{679D33CB-654A-427A-9871-55A2E569ED4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{679D33CB-654A-427A-9871-55A2E569ED4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{679D33CB-654A-427A-9871-55A2E569ED4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{679D33CB-654A-427A-9871-55A2E569ED4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{679D33CB-654A-427A-9871-55A2E569ED4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+EndGlobal
