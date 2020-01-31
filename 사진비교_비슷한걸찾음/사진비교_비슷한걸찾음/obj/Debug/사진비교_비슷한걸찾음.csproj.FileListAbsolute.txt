@@ -1,0 +1,8 @@
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\obj\Debug\사진비교_비슷한걸찾음.csprojResolveAssemblyReference.cache
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\obj\Debug\사진비교_비슷한걸찾음.MainForm.resources
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\obj\Debug\사진비교_비슷한걸찾음.csproj.GenerateResource.Cache
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\bin\Debug\사진비교_비슷한걸찾음.exe.config
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\bin\Debug\사진비교_비슷한걸찾음.exe
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\bin\Debug\사진비교_비슷한걸찾음.pdb
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\obj\Debug\사진비교_비슷한걸찾음.exe
+F:\a\사진비교_비슷한걸찾음\사진비교_비슷한걸찾음\obj\Debug\사진비교_비슷한걸찾음.pdb
