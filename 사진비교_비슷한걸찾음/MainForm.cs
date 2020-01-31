@@ -198,40 +198,31 @@ namespace 사진비교_비슷한걸찾음
 		}
 		
 		Color getReColor(Color color){
-			int colorR = 0;
-			int colorG = 0;
-			int colorB = 0;
+			int colorR = color.R;
+			int colorG = color.G;
+			int colorB = color.B;
 			
-			if(color.R <= 85){
-				colorR = 43;
+			if(colorR > colorG && colorR > colorB){
+				colorR = 255; // 빨강
 			}
-			else if(color.R <= 170){
-				colorR = 128;
+			else if(colorG > colorR && colorG > colorB){
+				colorG = 255; // 초록
+			}
+			else if(colorB > colorG && colorB > colorR){
+				colorB = 255; // 파랑
 			}
 			else{
-				colorR = 213;
+				if(color.R + color.G + color.B > 127){
+					colorR = 255; // 하양
+					colorG = 255;
+					colorB = 255;
+				}
+				else{
+					colorR = 0; // 검정
+					colorG = 0;
+					colorB = 0;
+				}
 			}
-			
-			if(color.G <= 85){
-				colorG = 43;
-			}
-			else if(color.G <= 170){
-				colorG = 128;
-			}
-			else{
-				colorG = 213;
-			}
-	
-			if(color.B <= 85){
-				colorB = 43;
-			}
-			else if(color.B <= 170){
-				colorB = 128;
-			}
-			else{
-				colorB = 213;
-			}
-			
 			Color output = Color.FromArgb(colorR, colorG, colorB);
 			return output;
 		}
