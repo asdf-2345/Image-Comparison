@@ -67,17 +67,15 @@ namespace 사진비교_비슷한걸찾음
 			pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 		}
 		
-		int comparisonNum = 0;//colorComparison, ReSize에서 사용됨
 		double AllowableMarginOfError = 0;
 		void Button3Click(object sender, EventArgs e)//대충비교		
 		{
-			comparisonNum = 4;
 			AllowableMarginOfError = 0.6;
 			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
 			Bitmap[] image = {image1, image2};
-			image = photoConversion(image1, image2);
+			image = photoConversion(image1, image2, "9색");
 			for(int a = 0; a < 4; a++){
 				image[1] = image2;
 				str = imageComparison(image[0], image[1]);
@@ -91,13 +89,12 @@ namespace 사진비교_비슷한걸찾음
 		
 		void Button4Click(object sender, EventArgs e)//비교
 		{
-			comparisonNum = 2;
-			AllowableMarginOfError = 0.8;
+			AllowableMarginOfError = 0.6;
 			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
 			Bitmap[] image = {image1, image2};
-			image = photoConversion(image1, image2);
+			image = photoConversion(image1, image2, "3색");
 			for(int a = 0; a < 4; a++){
 				image[1] = image2;
 				str = imageComparison(image[0], image[1]);
@@ -131,7 +128,7 @@ namespace 사진비교_비슷한걸찾음
 		}
 		
 		
-		Bitmap[] photoConversion(Bitmap image1, Bitmap image2){ //이미지 두개를 같은크기로 만들어줌
+		Bitmap[] photoConversion(Bitmap image1, Bitmap image2, string type){ //이미지 두개를 같은크기로 만들어줌
 			int width = 96;
 			int height = 120;
 			Size size = new Size(width, height);
@@ -142,20 +139,56 @@ namespace 사진비교_비슷한걸찾음
 			Bitmap resizeImage2 = new Bitmap(image2, size);
 			pictureBox2.Image = resizeImage2;
 			
+			Bitmap[] outputImage;
 			//recolorImage1 =
-			Bitmap[] outputImage = ReColor(resizeImage1, resizeImage2);
+			if(type == "9색")
+				outputImage = ReColor(resizeImage1, resizeImage2);
+			else
+				outputImage = grayScale(resizeImage1, resizeImage2);
 			return outputImage;
 		}
 		
-		Bitmap[] ReColor(Bitmap img1, Bitmap img2){
+		Bitmap[] grayScale(Bitmap img1, Bitmap img2){
 			Color img1Color;
 			Color img2Color;
-			double comparisonNum2 = (comparisonNum * 0.1);
+			
 			for (int i = 0; i < img1.Width; i++){
 				for (int j = 0; j < img2.Height; j++){
 					img1Color = img1.GetPixel(i, j);
 					img2Color = img2.GetPixel(i, j);
-					
+					img1Color = GetReGrayScaleColor(img1Color);
+					img2Color = GetReGrayScaleColor(img2Color);
+					img1.SetPixel(i, j, img1Color);
+					img2.SetPixel(i, j, img2Color);
+				}
+			}
+			Bitmap[] img = {img1, img2};
+			return img;
+		}
+		
+		Color GetReGrayScaleColor(Color color){
+			int gray = (color.R + color.G + color.B) / 3;
+			if(gray <= 50){
+				gray = 0;
+			}
+			else if(gray >= 200){
+				gray = 255;
+			}
+			else{
+				gray = 127;
+			}
+			Color output = Color.FromArgb(gray, gray, gray);
+			return output;
+		}
+			
+		Bitmap[] ReColor(Bitmap img1, Bitmap img2){
+			Color img1Color;
+			Color img2Color;
+			
+			for (int i = 0; i < img1.Width; i++){
+				for (int j = 0; j < img2.Height; j++){
+					img1Color = img1.GetPixel(i, j);
+					img2Color = img2.GetPixel(i, j);
 					img1Color = getReColor(img1Color);
 					img2Color = getReColor(img2Color);
 					img1.SetPixel(i, j, img1Color);

@@ -90,7 +90,7 @@ namespace 사진비교_비슷한걸찾음
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(75, 23);
 			this.button3.TabIndex = 4;
-			this.button3.Text = "대충비교";
+			this.button3.Text = "9색비교";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.Button3Click);
 			// 
@@ -100,16 +100,17 @@ namespace 사진비교_비슷한걸찾음
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(75, 23);
 			this.button4.TabIndex = 5;
-			this.button4.Text = "비교";
+			this.button4.Text = "3색비교";
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.Button4Click);
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(324, 524);
+			this.textBox1.Location = new System.Drawing.Point(302, 524);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(221, 21);
+			this.textBox1.Size = new System.Drawing.Size(272, 21);
 			this.textBox1.TabIndex = 7;
+			this.textBox1.Text = "모든 비교는 해상도를 낮추고 시작합니다";
 			this.textBox1.TextChanged += new System.EventHandler(this.TextBox1TextChanged);
 			// 
 			// MainForm
