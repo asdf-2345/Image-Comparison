@@ -132,10 +132,8 @@ namespace 사진비교_비슷한걸찾음
 		
 		
 		Bitmap[] photoConversion(Bitmap image1, Bitmap image2){ //이미지 두개를 같은크기로 만들어줌
-			int _width = Math.Max(image1.Width, image2.Width);
-			int _height = Math.Max(image1.Height, image2.Height);
-			int width = ReSize(_width); //더 크기가 큰 영상을 기준으로 크기를 변경
-			int height = ReSize(_height);
+			int width = 96;
+			int height = 120;
 			Size size = new Size(width, height);
 			
 			Bitmap resizeImage1 = new Bitmap(image1, size);
@@ -173,15 +171,20 @@ namespace 사진비교_비슷한걸찾음
 			int colorG = 0;
 			int colorB = 0;
 			
-			if(color.R > 200 && color.G > 200 && color.B > 200){
+			if((color.R > 200 && color.G > 200 && color.B > 200) || (color.R + color.G + color.B) / 3 > 210){
 				colorR = 255; // 하양
 				colorG = 255;
 				colorB = 255;
 			}
-			else if(color.R < 50 && color.G < 50 && color.B < 50){
+			else if((color.R < 50 && color.G < 50 && color.B < 50) || (color.R + color.G + color.B) / 3 < 40){
 				colorR = 0; // 검정
 				colorG = 0;
 				colorB = 0;	
+			}
+			else if(Math.Abs(color.R - color.G) <= 10 && Math.Abs(color.G - color.B) <= 10 && Math.Abs(color.B - color.R) <= 10){
+				colorR = 127; // 회색
+				colorG = 127;
+				colorB = 127;
 			}
 			else if(color.R > color.G && color.R > color.B){
 				if(color.R > color.G + color.B){
@@ -217,32 +220,6 @@ namespace 사진비교_비슷한걸찾음
 			return output;
 		}
 		
-		int ReSize(int size){ //해상도를 낮추는 함수
-			if(size > 2000){
-				return (size / (20 * comparisonNum));
-			}
-			else if(size > 1500){
-				return (size / (15 * comparisonNum));
-			}
-			else if(size > 1000){
-				return (size / (10 * comparisonNum));
-			}
-			else if(size > 500){
-				return (size / (5 * comparisonNum));
-			}
-			else if(size > 250){
-				return (size / (3 * comparisonNum));
-			}
-			else if(size > 100){
-				return (size / (1 * comparisonNum));
-			}
-			else if(size > 50){
-				return (size / comparisonNum);
-			}
-			
-			return size;
-		}
-			
 		void TextBox1TextChanged(object sender, EventArgs e)
 		{
 			
@@ -250,6 +227,33 @@ namespace 사진비교_비슷한걸찾음
 	}
 	
 	class TrashCan{ //접으려고 만들어놓음
+		
+		//int ReSize(int size){ //해상도를 낮추는 함수
+		//	if(size > 2000){
+		//		return (size / (20 * comparisonNum));
+		//	}
+		//	else if(size > 1500){
+		//		return (size / (15 * comparisonNum));
+		//	}
+		//	else if(size > 1000){
+		//		return (size / (10 * comparisonNum));
+		//	}
+		//	else if(size > 500){
+		//		return (size / (5 * comparisonNum));
+		//	}
+		//	else if(size > 250){
+		//		return (size / (3 * comparisonNum));
+		//	}
+		//	else if(size > 100){
+		//		return (size / (1 * comparisonNum));
+		//	}
+		//	else if(size > 50){
+		//		return (size / comparisonNum);
+		//	}
+		//	
+		//	return size;
+		//}
+		
 		//bool colorComparison(int[] Image1Color, int[] Image2Color){
 		//	int image1 = Image1Color[0] + Image1Color[1] + Image1Color[2];
 		//	int image2 = Image2Color[0] + Image2Color[1] + Image2Color[2];
