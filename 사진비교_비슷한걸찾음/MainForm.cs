@@ -70,7 +70,7 @@ namespace 사진비교_비슷한걸찾음
 		double AllowableMarginOfError = 0;
 		void Button3Click(object sender, EventArgs e)//대충비교		
 		{
-			AllowableMarginOfError = 0.6;
+			AllowableMarginOfError = double.Parse(textBox2.Text);
 			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
@@ -89,7 +89,7 @@ namespace 사진비교_비슷한걸찾음
 		
 		void Button4Click(object sender, EventArgs e)//비교
 		{
-			AllowableMarginOfError = 0.6;
+			AllowableMarginOfError = double.Parse(textBox2.Text);
 			string str = "";
 			Bitmap image1 = new Bitmap(pictureBox1.Image);
 			Bitmap image2 = new Bitmap(pictureBox2.Image);
@@ -120,6 +120,7 @@ namespace 사진비교_비슷한걸찾음
 				}
 			}
 			if(count >= size * AllowableMarginOfError){
+				Console.WriteLine((size * AllowableMarginOfError) + " " + count);
 				return "다릅니다."; // + count.ToString() + " " + size.ToString();
 			}
 			else{
@@ -254,6 +255,11 @@ namespace 사진비교_비슷한걸찾음
 		}
 		
 		void TextBox1TextChanged(object sender, EventArgs e)
+		{
+			
+		}
+		
+		void TextBox2TextChanged(object sender, EventArgs e)
 		{
 			
 		}
